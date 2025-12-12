@@ -9,7 +9,7 @@ const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || '';
 // Validate API key
 if (!apiKey || apiKey === 'your_api_key_here' || apiKey.trim() === '') {
   console.warn('⚠️ GEMINI_API_KEY is not set. Please add your API key to .env.local file.');
-  console.warn('   Get your API key from: https://aistudio.google.com/apikey');
+  console.warn('   Get your API key from Google AI Platform.');
 } else {
   console.log('✅ Gemini API Key loaded:', apiKey.substring(0, 20) + '...');
 }
@@ -209,7 +209,7 @@ export const generateChatResponse = async (
     if (!apiKey || apiKey === 'your_api_key_here' || apiKey.trim() === '') {
       console.error("❌ API Key is missing!");
       return {
-        text: "Sorry, API key belum setup lagi. Please add your GEMINI_API_KEY to .env.local file. Get it from https://aistudio.google.com/apikey",
+        text: "Sorry, API key belum setup lagi. Please add your GEMINI_API_KEY to .env.local file.",
         groundingMetadata: null,
         audioData: null,
         relatedProgramId: undefined,
