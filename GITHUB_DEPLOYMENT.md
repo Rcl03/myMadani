@@ -35,10 +35,12 @@ A workflow file has been created at `.github/workflows/deploy.yml` that will:
 2. **Add GitHub Secret for API Key:**
    - Go to your repository on GitHub
    - Click **Settings** → **Secrets and variables** → **Actions**
-   - Click **New repository secret**
+   - Click **New repository secret** (use Repository secret, not Environment secret)
    - Name: `GEMINI_API_KEY`
    - Value: Your actual Gemini API key
    - Click **Add secret**
+   
+   **Why Repository Secret?** Repository secrets are simpler and perfect for single-repo deployments. Environment secrets are for more complex setups with multiple environments or organization-wide secrets.
 
 3. **Enable GitHub Pages:**
    - Go to **Settings** → **Pages**

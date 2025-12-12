@@ -18,17 +18,30 @@ git push -u origin main
 ### Step 2: Add API Key Secret
 1. Go to your repository on GitHub
 2. Click **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
+3. Click **New repository secret** (NOT environment secret)
 4. Name: `GEMINI_API_KEY`
 5. Value: Your Gemini API key
 6. Click **Add secret**
 
-### Step 3: Enable GitHub Pages
+**Note:** Use **Repository secret**, not Environment secret. Repository secrets are simpler and work perfectly for this use case.
+
+### Step 3: Make Repository Public (Required)
+**GitHub Pages requires public repositories** (or GitHub Enterprise for private).
+
+1. Go to **Settings** → **General** (scroll to bottom)
+2. Under **Danger Zone**, click **Change visibility**
+3. Select **Make public** and confirm
+
+**Don't worry:** Your `GEMINI_API_KEY` secret is still safe! It's not exposed in your code.
+
+> 💡 Want to keep it private? See `GITHUB_PAGES_VISIBILITY.md` for alternatives like Vercel/Netlify.
+
+### Step 4: Enable GitHub Pages
 1. In your repository, go to **Settings** → **Pages**
 2. Under **Source**, select **GitHub Actions**
 3. Save (no need to select a branch)
 
-### Step 4: Deploy!
+### Step 5: Deploy!
 ```bash
 git add .
 git commit -m "Setup GitHub Pages"
