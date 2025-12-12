@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera, ScanFace, X } from 'lucide-react';
-import { getImagePath } from '../../utils/imagePath';
 
 interface BiometricVerifierProps {
   onVerifyComplete: () => void;
@@ -10,54 +9,76 @@ interface BiometricVerifierProps {
 
 const BiometricVerifier: React.FC<BiometricVerifierProps> = ({ onVerifyComplete, isPayment = false, onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const [scanning, setScanning] = useState(false);
   const [statusText, setStatusText] = useState("Initializing Camera...");
-  const [selectedVideo, setSelectedVideo] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Randomly select between authenticate1.mp4 and authenticate2.mp4
-    const videos = [getImagePath('/authenticate1.mp4'), getImagePath('/authenticate2.mp4')];
-    const randomVideo = videos[Math.floor(Math.random() * videos.length)];
-    setSelectedVideo(randomVideo);
-  }, []);
+    let stream: MediaStream | null = null;
 
-  useEffect(() => {
-    if (!selectedVideo || !videoRef.current) return;
-
-    const startVideo = () => {
-      if (videoRef.current) {
-        videoRef.current.src = selectedVideo;
-        videoRef.current.load();
+    const startCamera = async () => {
+      try {
+        setStatusText("Requesting camera access...");
         
-        const handleCanPlay = () => {
+        // Request camera access
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: 'user', // Front-facing camera
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          },
+          audio: false
+        });
+
+        streamRef.current = stream;
+
+        // Set the stream to the video element
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          setStatusText("Align your face within the circle");
+          
+          // Wait for video to be ready, then start scanning
           if (videoRef.current) {
-            videoRef.current.play().catch(console.error);
-            setStatusText("Align your face within the circle");
-            
-            // Auto-start scanning after a brief delay
-            setTimeout(() => {
-              setScanning(true);
-              setStatusText("Verifying Identity...");
-              // Mock verification success
+            videoRef.current.onloadedmetadata = () => {
+              // Auto-start scanning after a brief delay
               setTimeout(() => {
-                onVerifyComplete();
-              }, 2500);
-            }, 1000);
+                setScanning(true);
+                setStatusText("Verifying Identity...");
+                
+                // Mock verification success after scanning
+                setTimeout(() => {
+                  onVerifyComplete();
+                }, 2500);
+              }, 1000);
+            };
           }
-        };
-
-        videoRef.current.addEventListener('canplay', handleCanPlay, { once: true });
+        }
+      } catch (err: any) {
+        console.error('Camera access error:', err);
+        setError(err.message || 'Failed to access camera');
+        setStatusText("Camera access denied. Please allow camera permissions.");
         
-        return () => {
-          if (videoRef.current) {
-            videoRef.current.removeEventListener('canplay', handleCanPlay);
-          }
-        };
+        // Fallback: complete after showing error (for demo purposes)
+        setTimeout(() => {
+          onVerifyComplete();
+        }, 3000);
       }
     };
 
-    startVideo();
-  }, [selectedVideo, onVerifyComplete]);
+    startCamera();
+
+    // Cleanup: stop camera stream when component unmounts
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [onVerifyComplete]);
 
   return (
     <div 
@@ -108,6 +129,12 @@ const BiometricVerifier: React.FC<BiometricVerifierProps> = ({ onVerifyComplete,
       >
         {statusText}
       </p>
+      
+      {error && (
+        <p className="mt-4 text-sm text-yellow-300 text-center max-w-xs">
+          {error}
+        </p>
+      )}
       
       <div className="mt-4 flex items-center space-x-2 text-sm text-gray-300" aria-hidden="true">
         <Camera size={16} />

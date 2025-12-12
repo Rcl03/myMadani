@@ -16,7 +16,16 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       <div className="w-full max-w-md space-y-8 z-10 text-center">
         <div className="flex flex-col items-center animate-fade-in">
            <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-xl mb-6 overflow-hidden">
-             <img src={getImagePath('/applogo.png')} alt="MyMadani Logo" className="w-full h-full object-contain" />
+             <img 
+               src={getImagePath('/applogo.png')} 
+               alt="MyMadani Logo" 
+               className="w-full h-full object-contain"
+               onError={(e) => {
+                 console.error('Image failed to load:', e.currentTarget.src);
+                 console.log('Base URL:', import.meta.env.BASE_URL);
+                 console.log('Full path attempted:', getImagePath('/applogo.png'));
+               }}
+             />
            </div>
            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
              MyMadani

@@ -11,7 +11,9 @@ export default defineConfig(({ mode }) => {
     const repoName = isGitHubPages && process.env.GITHUB_REPOSITORY 
       ? process.env.GITHUB_REPOSITORY.split('/')[1] 
       : '';
+    // For debugging: log the base path (will show in build logs)
     const base = repoName ? `/${repoName}/` : '/';
+    console.log('Vite base path:', base, 'Repo name:', repoName, 'Is GitHub Pages:', isGitHubPages);
     
     return {
       base,

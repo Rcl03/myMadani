@@ -5,8 +5,15 @@
 export function getImagePath(path: string): string {
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  // Vite's import.meta.env.BASE_URL already includes the trailing slash
-  // For GitHub Pages it will be '/myMadani/', for local dev it will be '/'
-  return `${import.meta.env.BASE_URL}${cleanPath}`;
+  
+  // Get base URL - Vite sets this at build time
+  // For GitHub Pages: '/myMadani/' or '/mymadani/' (case-sensitive!)
+  // For local dev: '/'
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  
+  // Ensure base URL ends with slash
+  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  
+  return `${base}${cleanPath}`;
 }
 
