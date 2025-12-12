@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera, ScanFace, X } from 'lucide-react';
+import { getImagePath } from '../../utils/imagePath';
 
 interface BiometricVerifierProps {
   onVerifyComplete: () => void;
@@ -15,7 +16,7 @@ const BiometricVerifier: React.FC<BiometricVerifierProps> = ({ onVerifyComplete,
 
   useEffect(() => {
     // Randomly select between authenticate1.mp4 and authenticate2.mp4
-    const videos = ['/authenticate1.mp4', '/authenticate2.mp4'];
+    const videos = [getImagePath('/authenticate1.mp4'), getImagePath('/authenticate2.mp4')];
     const randomVideo = videos[Math.floor(Math.random() * videos.length)];
     setSelectedVideo(randomVideo);
   }, []);

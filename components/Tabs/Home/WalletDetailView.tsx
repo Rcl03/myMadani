@@ -4,6 +4,7 @@ import { SubsidyProgram, Doc } from '../../../types';
 import { MOCK_USER_PROFILE, STRINGS } from '../../../constants';
 import { X, QrCode, MapPin, ShoppingCart, Fuel, Edit3, UploadCloud, CheckCircle, Navigation, Wallet, CreditCard, AlertTriangle, Car, FileText, Lock, Stethoscope, Barcode, ChevronDown, Zap, Calendar, Clock, TrendingUp, ListChecks, RefreshCw, AlertCircle, HelpCircle, FileBarChart, ExternalLink, ChevronLeft, Image as ImageIcon, Check } from 'lucide-react';
 import BiometricVerifier from '../../Auth/BiometricVerifier';
+import { getImagePath } from '../../../utils/imagePath';
 
 interface WalletDetailViewProps {
   program: SubsidyProgram;
@@ -121,15 +122,15 @@ const WalletDetailView: React.FC<WalletDetailViewProps> = ({ program, onClose, l
 
   // Comprehensive Merchant Logos - Using local images from public folder
   const merchantLogos = [
-     { name: "Mydin", logo: "/mydin.jpg" },
-     { name: "99 Speedmart", logo: "/99speedmart.png" },
-     { name: "Econsave", logo: "/econsave.jpg" },
-     { name: "Lotus's", logo: "/lotus.png" },
-     { name: "Giant", logo: "/Giant.svg" },
-     { name: "AEON Big", logo: "/Aeon BIg.png" },
-     { name: "KK Mart", logo: "/kkmart.png.webp" },
-     { name: "Shell", logo: "/shell.jpeg" },
-     { name: "Petronas", logo: "/petronas.jpeg" },
+     { name: "Mydin", logo: getImagePath("/mydin.jpg") },
+     { name: "99 Speedmart", logo: getImagePath("/99speedmart.png") },
+     { name: "Econsave", logo: getImagePath("/econsave.jpg") },
+     { name: "Lotus's", logo: getImagePath("/lotus.png") },
+     { name: "Giant", logo: getImagePath("/Giant.svg") },
+     { name: "AEON Big", logo: getImagePath("/Aeon BIg.png") },
+     { name: "KK Mart", logo: getImagePath("/kkmart.png.webp") },
+     { name: "Shell", logo: getImagePath("/shell.jpeg") },
+     { name: "Petronas", logo: getImagePath("/petronas.jpeg") },
      { name: "Klinik Komuniti", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Coat_of_arms_of_Malaysia.svg/1200px-Coat_of_arms_of_Malaysia.svg.png" },
      { name: "Klinik Primer", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Coat_of_arms_of_Malaysia.svg/1200px-Coat_of_arms_of_Malaysia.svg.png" },
   ];
@@ -621,7 +622,7 @@ const WalletDetailView: React.FC<WalletDetailViewProps> = ({ program, onClose, l
              <div className="flex items-center space-x-4 mb-6 bg-gradient-to-r from-blue-50 to-white p-4 rounded-2xl border border-blue-50">
                 <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-blue-600 p-2">
                    {/* Petronas Logo */}
-                   <img src="/petronas.jpeg" alt="Petronas" className="w-full h-full object-contain" />
+                   <img src={getImagePath("/petronas.jpeg")} alt="Petronas" className="w-full h-full object-contain" />
                 </div>
                 <div>
                    <p className="text-xs text-gray-500 font-bold uppercase mb-0.5">{t.recommended}</p>
@@ -863,7 +864,7 @@ const WalletDetailView: React.FC<WalletDetailViewProps> = ({ program, onClose, l
           <div className="flex justify-center mb-4">
              <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-gray-100 shadow-lg">
                 <img 
-                   src="/user profile page.jpeg" 
+                   src={getImagePath("/user profile page.jpeg")} 
                    alt="User Profile" 
                    className="w-full h-full object-cover"
                    onError={(e) => {

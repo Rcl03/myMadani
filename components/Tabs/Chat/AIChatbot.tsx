@@ -4,6 +4,7 @@ import { Mic, ArrowUp, MapPin, Globe, Sparkles, StopCircle, User, Volume2, X, Bo
 import { generateChatResponse } from '../../../services/geminiService';
 import { ChatMessage } from '../../../types';
 import { STRINGS } from '../../../constants';
+import { getImagePath } from '../../../utils/imagePath';
 
 interface AIChatbotProps {
   lang: 'ms' | 'en' | 'zh' | 'ta';
@@ -11,8 +12,7 @@ interface AIChatbotProps {
 }
 
 // --- AVATAR ASSETS (Cascade System) ---
-// 1. Primary: Malay Girl 3D Model (GLB)
-const AVATAR_PRIMARY = "/malay_girl.glb";
+// 1. Primary: Malay Girl 3D Model (GLB) - path resolved dynamically
 // 2. Secondary: Robot Expressive (WebP - Lightweight 3D Render)
 const AVATAR_SECONDARY = "https://modelviewer.dev/shared-assets/models/RobotExpressive.webp";
 // 3. Fallback: DiceBear Generated Bot Avatar
@@ -57,7 +57,7 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ lang, onOpenProgram }) => {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   
   // Avatar State
-  const [avatarSrc, setAvatarSrc] = useState(AVATAR_PRIMARY);
+  const [avatarSrc, setAvatarSrc] = useState(getImagePath("/malay_girl.glb"));
   const [imgError, setImgError] = useState(false);
   const [useModelViewer, setUseModelViewer] = useState(true); // Use model-viewer for GLB files
 
@@ -81,7 +81,8 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ lang, onOpenProgram }) => {
   // Handle Avatar Load Errors (Cascade)
   const handleImgError = () => {
     console.warn("Avatar load failed, switching source...");
-    if (avatarSrc === AVATAR_PRIMARY) {
+    const primaryPath = getImagePath("/malay_girl.glb");
+    if (avatarSrc === primaryPath || avatarSrc.includes("malay_girl.glb")) {
       setUseModelViewer(false);
       setAvatarSrc(AVATAR_SECONDARY);
     } else if (avatarSrc === AVATAR_SECONDARY) {
@@ -93,7 +94,8 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ lang, onOpenProgram }) => {
 
   // Handle Model Viewer Load Errors
   useEffect(() => {
-    if (modelViewerRef.current && useModelViewer && avatarSrc === AVATAR_PRIMARY) {
+    const primaryPath = getImagePath("/malay_girl.glb");
+    if (modelViewerRef.current && useModelViewer && (avatarSrc === primaryPath || avatarSrc.includes("malay_girl.glb"))) {
       const modelViewer = modelViewerRef.current;
       const handleError = () => {
         console.warn("3D model load failed, switching to image...");
@@ -299,7 +301,7 @@ const AIChatbot: React.FC<AIChatbotProps> = ({ lang, onOpenProgram }) => {
                }}
             >
                {!imgError ? (
-                  useModelViewer && avatarSrc === AVATAR_PRIMARY ? (
+                  useModelViewer && (avatarSrc === getImagePath("/malay_girl.glb") || avatarSrc.includes("malay_girl.glb")) ? (
                      // Use model-viewer for GLB 3D model
                      // @ts-ignore - model-viewer is loaded via script tag
                      <model-viewer

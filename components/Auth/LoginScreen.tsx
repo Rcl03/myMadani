@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield } from 'lucide-react';
+import { getImagePath } from '../../utils/imagePath';
 
 interface LoginScreenProps {
   onLogin: () => void;
@@ -15,7 +16,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       <div className="w-full max-w-md space-y-8 z-10 text-center">
         <div className="flex flex-col items-center animate-fade-in">
            <div className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-xl mb-6 overflow-hidden">
-             <img src="/applogo.png" alt="MyMadani Logo" className="w-full h-full object-contain" />
+             <img src={getImagePath('/applogo.png')} alt="MyMadani Logo" className="w-full h-full object-contain" />
            </div>
            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
              MyMadani

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Shield } from 'lucide-react';
+import { getImagePath } from '../../utils/imagePath';
 
 interface MyMadaniLaunchScreenProps {
   onComplete: () => void;
@@ -35,7 +36,7 @@ const MyMadaniLaunchScreen: React.FC<MyMadaniLaunchScreenProps> = ({ onComplete 
       >
          {/* App Icon */}
          <div className="w-28 h-28 rounded-[2rem] flex items-center justify-center shadow-2xl mb-8 border-4 border-white ring-1 ring-gray-100 overflow-hidden">
-             <img src="/applogo.png" alt="MyMadani Logo" className="w-full h-full object-contain" />
+             <img src={getImagePath('/applogo.png')} alt="MyMadani Logo" className="w-full h-full object-contain" />
          </div>
 
          {/* Brand Text */}

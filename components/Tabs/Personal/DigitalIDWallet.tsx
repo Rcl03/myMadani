@@ -4,6 +4,7 @@ import { ShieldCheck, Share2, QrCode, CreditCard, RefreshCw, Car, MapPin, Bell, 
 import { STRINGS, MOCK_USER_PROFILE } from '../../../constants';
 import { UserProfile, Doc } from '../../../types';
 import BiometricVerifier from '../../Auth/BiometricVerifier';
+import { getImagePath } from '../../../utils/imagePath';
 
 interface DigitalIDWalletProps {
   lang: 'ms' | 'en' | 'zh' | 'ta';
@@ -155,7 +156,7 @@ const DigitalIDWallet: React.FC<DigitalIDWalletProps> = ({ lang, docs, onUpdateD
                   {/* Avatar Section */}
                   <div className="flex flex-col items-center mb-8">
                       <div className="w-24 h-24 bg-gray-200 rounded-full overflow-hidden border-4 border-white shadow-lg relative">
-                          <img src="/user profile page.jpeg" alt="Profile" className="w-full h-full object-cover" />
+                          <img src={getImagePath("/user profile page.jpeg")} alt="Profile" className="w-full h-full object-cover" />
                           {isEditing && (
                               <div className="absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer">
                                   <Upload size={20} className="text-white" />
@@ -493,7 +494,7 @@ const DigitalIDWallet: React.FC<DigitalIDWalletProps> = ({ lang, docs, onUpdateD
                            {/* Content */}
                            <div className="flex space-x-4">
                                <div className="w-20 h-24 bg-gray-200 rounded-lg overflow-hidden border-2 border-white/20 shadow-inner shrink-0">
-                                   <img src="/user profile page.jpeg" alt="Profile" className="w-full h-full object-cover" />
+                                   <img src={getImagePath("/user profile page.jpeg")} alt="Profile" className="w-full h-full object-cover" />
                                </div>
                                <div className="flex-1 space-y-2 pt-1">
                                    <div>
@@ -541,7 +542,7 @@ const DigitalIDWallet: React.FC<DigitalIDWalletProps> = ({ lang, docs, onUpdateD
 
                                <div className="flex space-x-4">
                                    <div className="w-16 h-20 bg-gray-100 rounded-md border border-gray-300 overflow-hidden shrink-0 mt-2">
-                                      <img src="/user profile page.jpeg" alt="Profile" className="w-full h-full object-cover" />
+                                      <img src={getImagePath("/user profile page.jpeg")} alt="Profile" className="w-full h-full object-cover" />
                                    </div>
                                    <div className="space-y-1 mt-1 w-full text-gray-800">
                                        <div className="flex justify-between items-start">
