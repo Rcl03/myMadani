@@ -1,0 +1,9 @@
+{
+  "name": "MyMadani",
+  "description": "A comprehensive mobile application prototype for the Malaysia Government, featuring digital ID, subsidy wallets, and AI assistance.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
